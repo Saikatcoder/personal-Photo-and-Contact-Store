@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Private Contact Book</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js" integrity="sha512-a+SUDuwNzXDvz4XrIcXHuCf089/iJAoN4lmrXJg18XnduKK6YlDHNRalv4yd1N40OKI80tFidF+rqTFKGPoWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <style>
+    body {
+      background: linear-gradient(to right, #667eea, #764ba2);
+    }
+    .glass {
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.125);
+    }
+    .floating-label input:focus + label,
+    .floating-label input:not(:placeholder-shown) + label {
+      transform: scale(0.85) translateY(-1.6rem);
+      color: #6366f1;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center text-white font-sans">
+
+  <div class="w-full max-w-3xl p-6 space-y-8">
+    <!-- Header -->
+    <div class="text-center">
+        <div class="flex justify-center space-y-3 items-center flex-col">
+            <h1 class="text-4xl font-bold tracking-tight drop-shadow">📇 Private Contact Book</h1>
+             <Button class="bg-rose-500 px-8 py-2 rounded text-white font-medium" onclick="openContact()">
+                <i class="ri-add-line"></i>
+                Add Contact
+            </Button>
+        </div>
+      <p class="text-sm text-indigo-200 mt-2">Securely store your personal contacts with time and photo</p>
+    </div>
+
+    <!-- Unlock Form -->
+    <div class="glass p-6 md:p-8 shadow-xl rounded-xl">
+      <form class="flex flex-col sm:flex-row items-center gap-4">
+        <div class="floating-label relative w-full">
+          <input type="password" id="secret" placeholder=" " required
+            class="peer w-full bg-transparent border-b-2 border-white text-white placeholder-transparent px-2 py-3 focus:outline-none focus:border-indigo-300 transition" />
+          <label for="secret"
+            class="absolute left-2 top-3 text-white text-sm transition-all peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-sm">
+            Enter Secret Key
+          </label>
+        </div>
+        <button
+          type="submit"
+          class="bg-indigo-600 hover:bg-indigo-700 transition px-6 py-3 rounded-lg font-semibold shadow-md">
+          <i class="ri-lock-unlock-line mr-1"></i>Unlock
+        </button>
+      </form>
+    </div>
+
+    <!-- Contact Table -->
+    <div class="glass p-6 md:p-8 shadow-xl rounded-xl">
+      <h2 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+        <i class="ri-contacts-line text-indigo-300 text-2xl"></i> Contacts List
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm text-left">
+          <thead class=" border-b border-white/20 bg-green-400 text-white">
+            <tr>
+              <th class="py-3 px-4">SN</th>
+              <th class="py-3 px-4">Contact Info</th>
+              <th class="py-3 px-4">Created At</th>
+              <th class="py-3 px-4 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody class="text-white/90">
+            <tr class="hover:bg-white/10 transition">
+              <td class="py-3 px-4">1</td>
+              <td class="py-3 px-4 font-medium">*********</td>
+              <td class="py-3 px-4">Jan 17, 2000</td>
+              <td class="py-3 px-4 text-center">
+                <button class="text-green-300 hover:text-green-500"><i class="ri-eye-line"></i></button>
+                <button class="ml-3 text-red-400 hover:text-red-600"><i class="ri-delete-bin-line"></i></button>
+              </td>
+            </tr>
+            <!-- More rows here -->
+               <tr class="hover:bg-white/10 transition">
+              <td class="py-3 px-4">1</td>
+              <td class="py-3 px-4 font-medium">*********</td>
+              <td class="py-3 px-4">Jan 17, 2000</td>
+              <td class="py-3 px-4 text-center">
+                <button class="text-green-300 hover:text-green-500"><i class="ri-eye-line"></i></button>
+                <button class="ml-3 text-red-400 hover:text-red-600"><i class="ri-delete-bin-line"></i></button>
+              </td>
+            </tr>
+              <tr class="hover:bg-white/10 transition">
+              <td class="py-3 px-4">1</td>
+              <td class="py-3 px-4 font-medium">*********</td>
+              <td class="py-3 px-4">Jan 17, 2000</td>
+              <td class="py-3 px-4 text-center">
+                <button class="text-green-300 hover:text-green-500"><i class="ri-eye-line"></i></button>
+                <button class="ml-3 text-red-400 hover:text-red-600"><i class="ri-delete-bin-line"></i></button>
+              </td>
+            </tr>
+              <tr class="hover:bg-white/10 transition">
+              <td class="py-3 px-4">1</td>
+              <td class="py-3 px-4 font-medium">*********</td>
+              <td class="py-3 px-4">Jan 17, 2000</td>
+              <td class="py-3 px-4 text-center">
+                <button class="text-green-300 hover:text-green-500"><i class="ri-eye-line"></i></button>
+                <button class="ml-3 text-red-400 hover:text-red-600"><i class="ri-delete-bin-line"></i></button>
+              </td>
+            </tr>
+              <tr class="hover:bg-white/10 transition">
+              <td class="py-3 px-4">1</td>
+              <td class="py-3 px-4 font-medium">*********</td>
+              <td class="py-3 px-4">Jan 17, 2000</td>
+              <td class="py-3 px-4 text-center">
+                <button class="text-green-300 hover:text-green-500"><i class="ri-eye-line"></i></button>
+                <button class="ml-3 text-red-400 hover:text-red-600"><i class="ri-delete-bin-line"></i></button>
+              </td>
+            </tr>
+              <tr class="hover:bg-white/10 transition">
+              <td class="py-3 px-4">1</td>
+              <td class="py-3 px-4 font-medium">*********</td>
+              <td class="py-3 px-4">Jan 17, 2000</td>
+              <td class="py-3 px-4 text-center">
+                <button class="text-green-300 hover:text-green-500"><i class="ri-eye-line"></i></button>
+                <button class="ml-3 text-red-400 hover:text-red-600"><i class="ri-delete-bin-line"></i></button>
+              </td>
+            </tr>
+              <tr class="hover:bg-white/10 transition">
+              <td class="py-3 px-4">1</td>
+              <td class="py-3 px-4 font-medium">*********</td>
+              <td class="py-3 px-4">Jan 17, 2000</td>
+              <td class="py-3 px-4 text-center">
+                <button class="text-green-300 hover:text-green-500"><i class="ri-eye-line"></i></button>
+                <button class="ml-3 text-red-400 hover:text-red-600"><i class="ri-delete-bin-line"></i></button>
+              </td>
+            </tr>
+              <tr class="hover:bg-white/10 transition">
+              <td class="py-3 px-4">1</td>
+              <td class="py-3 px-4 font-medium">*********</td>
+              <td class="py-3 px-4">Jan 17, 2000</td>
+              <td class="py-3 px-4 text-center">
+                <button class="text-green-300 hover:text-green-500"><i class="ri-eye-line"></i></button>
+                <button class="ml-3 text-red-400 hover:text-red-600"><i class="ri-delete-bin-line"></i></button>
+              </td>
+            </tr>
+              <tr class="hover:bg-white/10 transition">
+              <td class="py-3 px-4">1</td>
+              <td class="py-3 px-4 font-medium">*********</td>
+              <td class="py-3 px-4">Jan 17, 2000</td>
+              <td class="py-3 px-4 text-center">
+                <button class="text-green-300 hover:text-green-500"><i class="ri-eye-line"></i></button>
+                <button class="ml-3 text-red-400 hover:text-red-600"><i class="ri-delete-bin-line"></i></button>
+              </td>
+            </tr>
+              <tr class="hover:bg-white/10 transition">
+              <td class="py-3 px-4">1</td>
+              <td class="py-3 px-4 font-medium">*********</td>
+              <td class="py-3 px-4">Jan 17, 2000</td>
+              <td class="py-3 px-4 text-center">
+                <button class="text-green-300 hover:text-green-500"><i class="ri-eye-line"></i></button>
+                <button class="ml-3 text-red-400 hover:text-red-600"><i class="ri-delete-bin-line"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
