@@ -92,12 +92,13 @@ const createContact = (e) => {
   const fileReader = new FileReader()
   fileReader.readAsDataURL(imageInput)
   fileReader.onload  = (e)=>{
-   const image = e.target.result
-    const payload =JSON.stringify({
-        image,
+   const contactimage = e.target.result
+    const payload = JSON.stringify({
+        contactimage,
         numberInput,
         nameInput,
-        created:new Date()
+        created:new Date(),
+        secretKey: "saikat123"
     })
   const data =CryptoJS.AES.encrypt(payload,"saikat123").toString();
   const key = Date.now()
@@ -133,7 +134,8 @@ const creatPhoto = (e)=>{
         const image = e.target.result
         const payload = JSON.stringify({
             image,
-            created:new Date()
+            created:new Date(),
+            secretKey: "saikat123"
         })
       const data =CryptoJS.AES.encrypt(payload,"saikat123").toString();
       const key =  Date.now()
@@ -159,33 +161,109 @@ const creatPhoto = (e)=>{
 }
 
 
-const unlockKey = (e) => {
+const getId =()=>{
+  return Date.now()
+}
+
+ const previewImage = document.getElementById("previewImage");
+
+const unlockKey = async (e) => {
   e.preventDefault();
-  const secretKey = document.getElementById("secretKey").value.trim();
-  const keys = Object.keys(localStorage);
-
-  for (let key of keys) {
-    const decryptData = localStorage.getItem(key);
-    const decryptString = CryptoJS.AES.decrypt(decryptData, secretKey);
-   const originaldata = decryptString.toString(CryptoJS.enc.Utf8);
-
-
-    if (originaldata) {
-      try {
-        const data = JSON.parse(originaldata);
-        console.log(data);
-      } catch (err) {
-        console.log(err);
-          Swal.fire({
-        icon: 'error',
-        title: 'Invalid Secret Key!',
-        text: `Cannot decrypt data with this key.`,
-        background: '#1e1e2f',
-        color: '#fff'
-        });
-      }
-    } else {
-      console.warn(`Decryption failed for key: ${key}`);
-    }
+  const secret = document.getElementById("secretKey");
+  const secretKey = secret.value.trim()
+  const keys =Object.keys(localStorage);
+   const contactList = document.getElementById('contactlist');
+   const imageList = document.getElementById("imagelist");
+  if(keys.length === 0){
+    new Swal({
+       icon: 'info',
+      title: 'photo contact dosenot exist!',
+      background: '#1e1e2f',
+      color: '#fff'
+    })
   }
+   let snNumber = 1;
+   let hasPhoto = false;
+   let hasContact  =false;
+   const id = getId()
+   contactList.innerHTML ="";
+   imageList.innerHTML  = "";
+ for (let key of keys) {
+  const decryptData = localStorage.getItem(key);
+  const decryptString = await CryptoJS.AES.decrypt(decryptData, secretKey);
+  const originaldata = await decryptString.toString(CryptoJS.enc.Utf8);
+
+  if (!originaldata) {
+    continue; // skip invalid keys
+  }
+
+  try {
+    const data = await JSON.parse(originaldata);
+    if(data.contactimage && data.nameInput && data.created && data.numberInput){
+      hasContact = true;
+    const ui = `<tr id=${id}>
+      <td class="py-3 px-2">${snNumber}</td>
+      <td class="py-3 px-2">
+        <div class="flex items-center gap-3">
+          <img src="${data.contactimage}" class="w-12 h-12 rounded-full border-2 border-white object-cover"/>
+          <div>
+            <div class="font-semibold">${data.nameInput}</div>
+            <div class="text-sm text-white/60">${data.numberInput}</div>
+          </div>
+        </div>
+      </td>
+      <td class="py-3 px-2">${moment(data.created).format('MMMM Do YYYY, h:mm:ss A')}</td>
+      <td class="py-3 px-2 text-center space-x-2">
+        <button class="text-red-400 hover:text-red-600"onclick="deleteitem('${id}','${key}')"><i class="ri-delete-bin-line" ></i></button>
+      </td>
+    </tr>`;
+    contactList.innerHTML += ui;
+     snNumber += 1;
+    }
+
+    if(data.image){
+    hasPhoto = true
+   const imageui = `
+  <div class="relative inline-block m-2 group" id=${id}>
+    <img src="${data.image}" alt="Photo" class="w-32 h-32 object-cover rounded border hover:scale-105 transition duration-300 photo-thumb" />
+    <button 
+      onclick="deleteitem('${key}','${id}')"
+      class="absolute top-1 right-1 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition"
+      title="Delete Photo"
+    >
+      <i class="ri-close-line"></i>
+    </button>
+  </div>
+`;
+    imageList.innerHTML += imageui
+  }
+
+  } catch (err) {
+    console.log(err);
+    Swal.fire({
+      icon: 'error',
+      title: 'Invalid Secret Key!',
+      text: `Cannot decrypt data with this key.`,
+      background: '#1e1e2f',
+      color: '#fff'
+    });
+  }
+}
+secretKey= "";
 };
+const deleteitem = (id, e) => {
+    const tr = document.getElementById(id);
+    tr.remove()
+    localStorage.removeItem(e)
+};
+
+
+
+const  showEncryptedData = ()=>{
+    const keys = Object.keys(localStorage)
+    for(let key of keys){
+      const ui = `
+        
+      `
+    }
+}

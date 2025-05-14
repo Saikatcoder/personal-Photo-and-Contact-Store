@@ -27,14 +27,13 @@
 </head>
 <body class="bg-[#121212] text-white min-h-screen p-4 space-y-6">
 
-  <!-- 🔐 Secret Key Section -->
   <form class="flex flex-col sm:flex-row items-center justify-center gap-3" onsubmit="unlockKey(event)">
     <input id="secretKey" type="text" placeholder="Enter Secret Key"
       class="bg-white/10 text-white px-4 py-2 rounded-md w-full sm:w-64 border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500" />
     <button id="unlockBtn" class="bg-green-600 px-4 py-2 rounded-md hover:bg-green-700 w-full sm:w-auto">Unlock</button>
   </form>
 
-  <!-- 🔘 Action Buttons -->
+
   <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
     <h1 class="text-4xl font-bold tracking-tight drop-shadow">📇 Private Contact & Photo</h1>
     <div class="space-x-3">
@@ -43,10 +42,9 @@
     </div>
   </div>
 
-  <!-- 🧱 Main Section -->
   <div class="flex flex-col lg:flex-row gap-6">
 
-    <!-- 📇 Contact List -->
+
     <div class="lg:w-2/3 w-full bg-white/5 backdrop-blur-sm p-6 rounded-xl shadow-lg">
       <h2 class="text-xl font-semibold mb-4">Saved Contacts</h2>
 
@@ -59,68 +57,30 @@
             <th class="py-2 text-center">Actions</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-white/10">
-          <!-- Dummy Contact 1 -->
-          <tr>
-            <td class="py-3 px-2">1</td>
-            <td class="py-3 px-2">
-              <div class="flex items-center gap-3">
-                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-12 h-12 rounded-full border-2 border-white object-cover"/>
-                <div>
-                  <div class="font-semibold">Ravi Sharma</div>
-                  <div class="text-sm text-white/60">+91 98765 43210</div>
-                </div>
-              </div>
-            </td>
-            <td class="py-3 px-2">13 May 2025</td>
-            <td class="py-3 px-2 text-center space-x-2">
-              <button class="text-green-400 hover:text-green-600"><i class="ri-eye-line"></i></button>
-              <button class="text-red-400 hover:text-red-600"><i class="ri-delete-bin-line"></i></button>
-            </td>
-          </tr>
-
-          <!-- Dummy Contact 2 -->
-          <tr>
-            <td class="py-3 px-2">2</td>
-            <td class="py-3 px-2">
-              <div class="flex items-center gap-3">
-                <img src="https://randomuser.me/api/portraits/women/45.jpg" class="w-12 h-12 rounded-full border-2 border-white object-cover"/>
-                <div>
-                  <div class="font-semibold">Anjali Mehta</div>
-                  <div class="text-sm text-white/60">+91 91234 56789</div>
-                </div>
-              </div>
-            </td>
-            <td class="py-3 px-2">12 May 2025</td>
-            <td class="py-3 px-2 text-center space-x-2">
-              <button class="text-green-400 hover:text-green-600"><i class="ri-eye-line"></i></button>
-              <button class="text-red-400 hover:text-red-600"><i class="ri-delete-bin-line"></i></button>
-            </td>
-          </tr>
+        <tbody class="divide-y divide-white/10" id="contactlist">
         </tbody>
       </table>
     </div>
 
-    <!-- 🖼️ Photo Vault -->
     <div class="lg:w-1/3 w-full bg-white/5 backdrop-blur-sm p-4 rounded-xl shadow-lg">
       <h2 class="text-xl font-semibold mb-4">Photo Vault</h2>
 
       <!-- Image Preview -->
-      <div class="w-full mb-4">
+      <div class="w-full mb-4" id="previewImage">
         <img id="previewImage" src="https://images.pexels.com/photos/1054655/pexels-photo-1054655.jpeg?cs=srgb&dl=pexels-hsapir-1054655.jpg&fm=jpg" alt="Selected Image" class="w-full object-contain h-64 rounded shadow">
         <p class="mt-2 text-sm text-white/60 text-center">Click any image to preview here</p>
       </div>
 
       <!-- Thumbnails -->
-      <div class="flex grid grid-cols-3 gap-2">
-        <img src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D" alt="Photo 1" class="cursor-pointer rounded border hover:scale-105 transition duration-300 photo-thumb">
-        <img src="https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg" alt="Photo 2" class="cursor-pointer rounded border hover:scale-105 transition duration-300 photo-thumb">
-        <img src="https://images.pexels.com/photos/1054655/pexels-photo-1054655.jpeg?cs=srgb&dl=pexels-hsapir-1054655.jpg&fm=jpg" alt="Photo 3" class="cursor-pointer rounded border hover:scale-105 transition duration-300 photo-thumb">
-        <img src="https://images.pexels.com/photos/1054655/pexels-photo-1054655.jpeg?cs=srgb&dl=pexels-hsapir-1054655.jpg&fm=jpg" alt="Photo 3" class="cursor-pointer rounded border hover:scale-105 transition duration-300 photo-thumb">
+      <div class="flex grid grid-cols-3 gap-2" id="imagelist">
+       
       </div>
     </div>
 
   </div>
-<script src="app.js"></script>
+<script src="
+    https://cdn.jsdelivr.net/npm/moment@2.30.1/moment.min.js
+    "></script>
+  <script src="app.js"></script>
 </body>
 </html>
